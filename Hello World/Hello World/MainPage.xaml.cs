@@ -12,6 +12,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using System.Threading;
+using System.Threading.Tasks.Dataflow;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -24,13 +26,33 @@ namespace Hello_World
     {
         public MainPage()
         {
-            this.InitializeComponent();            
+            this.InitializeComponent();
+            
+            DispatcherTimer myDispatcherTimer = new DispatcherTimer();
+            myDispatcherTimer.Interval = new TimeSpan(0, 0, 1);
+            myDispatcherTimer.Tick += MyDispatcherTimer_Tick;
+            myDispatcherTimer.Start();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button_Click(object sender, RoutedEventArgs e)
         {
             WorldView wv = new WorldView();
             HelloBox.Text = wv.Message;
+        }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MyDispatcherTimer_Tick(object sender, object e)
+        {
+            TimeBox.Text = DateTime.Now.ToString("hh:mm:ss tt");
         }
     }
 }
